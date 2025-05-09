@@ -5,8 +5,7 @@ import java.io.File;
 public class ReadData{
     //I hard-coded the number of rows and columns so 
     //I could use a 2D array
-    private double[][] data = new double[...][...];
-
+    private double[][] data = new double[21908][14];
     //This should read in the csv file and store the data in a 2D array,
     //data -- don't forget to skip the header line and parse everything
     //as doubles  
@@ -18,7 +17,9 @@ public class ReadData{
             while(scanner.hasNextLine()){
                 String line = scanner.nextLine();
                 String[] lineArr = line.split(",");
-                ...
+                for(int col = 0; col < lineArr.length; col++){
+                    data[row][col] = Double.parseDouble(lineArr[col]);
+                }
                 row++;
             }
             scanner.close();
@@ -35,8 +36,12 @@ public class ReadData{
     //this should return a double array of the column
     //of data
     public double[][] getColumns(int col1, int col2){
-        double[][] columns = ...
-        ...
+        double[][] columns = new double[data.length][col2-col1];
+        for(int row = 0; row < data.length; row++){
+            for(int col = col1; col < col2; col++){
+                columns[row][col-col1] = data[row][col];
+            }
+        }
         return columns;
     }
 
@@ -61,9 +66,17 @@ public class ReadData{
     //the mean is the sum of the values divided by the number 
     //of values
     public double[] mean(double[][] xy){
-        double sum = 0;
-        ...
-        return ...;
+        double[] mean = new double[xy.length];
+        for(int x = 0; x < xy.length; x++){
+            for(int row = 0; row < xy.length; row++){
+                double sum = 0;
+                for(int col = 0; col < xy[row].length; col++){
+                    sum += xy[row][col];
+                }
+                mean[x] = sum / xy[row].length;
+            }
+        }
+        return mean;
     }
 
     //this returns the values of each column in standard units
